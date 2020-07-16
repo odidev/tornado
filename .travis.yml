@@ -22,9 +22,18 @@ jobs:
       env: TOX_ENV=py35-full
     - python: '3.6'
       env: TOX_ENV=py36-full
+    - python: '3.6'
+      arch: arm64
+      env: TOX_ENV=py36-full
     - python: '3.7'
       env: TOX_ENV=py37-full
+    - python: '3.7'
+      arch: arm64
+      env: TOX_ENV=py37-full
     - python: '3.8'
+      env: TOX_ENV=py38-full
+    - python: '3.8'
+      arch: arm64
       env: TOX_ENV=py38-full
     - python: pypy3.5-5.10.1
       # Pypy is a lot slower due to jit warmup costs, so don't run the "full"
@@ -36,6 +45,12 @@ jobs:
     - python: '3.8'
       env: TOX_ENV=docs
     - python: '3.8'
+      arch: arm64
+      env: TOX_ENV=docs
+    - python: '3.8'
+      env: TOX_ENV=lint
+    - python: '3.8'
+      arch: arm64
       env: TOX_ENV=lint
   allow_failures:
     # Currently failing due to https://foss.heptapod.net/pypy/cffi/issues/458
