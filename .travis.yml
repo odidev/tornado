@@ -6,6 +6,7 @@ addons:
   apt:
     packages:
       - libgnutls-dev
+      - patchelf
 
 # For a list of available versions, run
 #     aws s3 ls s3://travis-python-archives/binaries/ubuntu/16.04/x86_64/
@@ -21,20 +22,20 @@ jobs:
     - python: '3.5'
       env: TOX_ENV=py35-full
     - python: '3.6'
-      env: TOX_ENV=py36-full
+      env: TOX_ENV=py36-full BUILD_WHEEL=1
     - python: '3.6'
       arch: arm64
-      env: TOX_ENV=py36-full
+      env: TOX_ENV=py36-full BUILD_WHEEL=1
     - python: '3.7'
-      env: TOX_ENV=py37-full
+      env: TOX_ENV=py37-full BUILD_WHEEL=1
     - python: '3.7'
       arch: arm64
-      env: TOX_ENV=py37-full
+      env: TOX_ENV=py37-full BUILD_WHEEL=1
     - python: '3.8'
-      env: TOX_ENV=py38-full
+      env: TOX_ENV=py38-full BUILD_WHEEL=1
     - python: '3.8'
       arch: arm64
-      env: TOX_ENV=py38-full
+      env: TOX_ENV=py38-full BUILD_WHEEL=1
     - python: pypy3.5-5.10.1
       # Pypy is a lot slower due to jit warmup costs, so don't run the "full"
       # test config there.
@@ -60,6 +61,13 @@ install:
     - travis_retry pip install tox
     - python -VV
     - curl-config --version; pip freeze
+    - |
+      if [[ -n ${BUILD_WHEEL} ]]; then
+         pip install -U cibuildwheel auditwheel
+         cibuildwheel --output-dir dist/
+         auditwheel repair dist/*.whl -w dist/
+         ls dist/
+      fi
 
 script:
     - "tox -e $TOX_ENV -- $TOX_ARGS"
