@@ -80,6 +80,5 @@ script:
       else
          pip install -U cibuildwheel
          cibuildwheel --output-dir dist
-         sudo rm -rf dist/*manylinux2010_x86_64.whl
          tox --installpkg dist/*.whl -e $TOX_ENV -- $TOX_ARGS
       fi
