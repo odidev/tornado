@@ -78,6 +78,7 @@ script:
       if [[ -z ${BUILD_WHEEL} ]]; then
          tox -e $TOX_ENV -- $TOX_ARGS
       else
+         export CIBW_MANYLINUX_X86_64_IMAGE=manylinux1
          pip install -U cibuildwheel
          cibuildwheel --output-dir dist
          tox --installpkg dist/*.whl -e $TOX_ENV -- $TOX_ARGS
